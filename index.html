@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grammar Practice · My American Year · B2</title>
+<style>
+:root{
+  --paper:#fbfaf5;
+  --ink:#16233d;
+  --ink-soft:#5c6a85;
+  --ink-faint:#93a0b5;
+  --rule:#cbd9ef;
+  --margin:#e3aab2;
+  --pen:#b3352c;
+  --good:#1c7a56;
+  --good-bg:#eef7f2;
+  --bad-bg:#fbf1f0;
+  --card:#ffffff;
+  --line:#e6e5dc;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  background-image:repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px);
+  background-attachment:fixed;
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:32px;
+  -webkit-font-smoothing:antialiased;
+}
+.sheet{
+  max-width:780px;margin:0 auto;padding:32px 24px 96px 24px;position:relative;
+}
+.sheet::before{
+  content:"";position:absolute;top:0;bottom:0;left:56px;width:1px;background:var(--margin);
+}
+.wrap{padding-left:44px}
+@media(max-width:700px){
+  .sheet{padding-left:16px;padding-right:16px}
+  .sheet::before{display:none}
+  .wrap{padding-left:0}
+}
+.eyebrow{
+  font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-faint);line-height:32px;margin:0;
+}
+h1{font-size:34px;line-height:48px;margin:0 0 8px;font-weight:600;letter-spacing:-.01em}
+.lede{color:var(--ink-soft);margin:0 0 32px;max-width:52ch}
+.pick{display:grid;gap:16px;margin:0 0 32px}
+.pick button{
+  display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);
+  border-left:3px solid var(--ink);border-radius:2px;padding:16px 20px;cursor:pointer;
+  font-family:inherit;color:inherit;transition:transform .12s ease,border-color .12s ease;
+}
+.pick button:hover{transform:translateX(3px);border-left-color:var(--pen)}
+.pick .pt{font-size:20px;line-height:28px;display:block}
+.pick .ps{font-family:var(--sans);font-size:12.5px;letter-spacing:.04em;color:var(--ink-soft);line-height:24px}
+.note{font-family:var(--sans);font-size:13px;line-height:22px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:16px}
+.note b{color:var(--ink)}
+
+.topbar{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:8px}
+.part{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--pen)}
+.count{font-family:var(--sans);font-size:12px;color:var(--ink-faint);letter-spacing:.06em}
+.bar{height:2px;background:var(--line);margin-bottom:32px;position:relative}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink);transition:width .3s ease}
+.qnum{
+  position:absolute;left:-44px;width:32px;text-align:right;color:var(--pen);
+  font-family:var(--sans);font-size:13px;letter-spacing:.02em;
+}
+@media(max-width:700px){.qnum{display:none}}
+.qbox{position:relative}
+.q{font-size:22px;line-height:36px;margin:0 0 24px}
+.opts{display:grid;gap:8px;margin-bottom:24px}
+.opt{
+  display:flex;gap:14px;align-items:flex-start;width:100%;text-align:left;
+  background:var(--card);border:1px solid var(--line);border-radius:2px;
+  padding:11px 16px;cursor:pointer;font-family:inherit;font-size:17px;line-height:26px;color:inherit;
+}
+.opt:hover:not(:disabled){border-color:var(--ink-soft)}
+.opt:disabled{cursor:default}
+.opt .k{
+  font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--ink-faint);
+  border:1px solid var(--line);border-radius:2px;min-width:22px;height:22px;display:grid;place-items:center;
+  margin-top:2px;flex:none;
+}
+.opt.sel{border-color:var(--ink);box-shadow:inset 3px 0 0 var(--ink)}
+.opt.sel .k{border-color:var(--ink);color:var(--ink)}
+.opt.right{border-color:var(--good);background:var(--good-bg);box-shadow:inset 3px 0 0 var(--good)}
+.opt.right .k{border-color:var(--good);color:var(--good)}
+.opt.wrong{background:var(--bad-bg);border-color:#e9cdc9;box-shadow:inset 3px 0 0 #e0b6b1;color:var(--ink-soft)}
+.opt.picked.wrong{box-shadow:inset 3px 0 0 var(--pen);border-color:var(--pen)}
+.opt .tag{
+  font-family:var(--sans);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  margin-left:auto;padding-left:12px;flex:none;color:var(--pen);line-height:26px;
+}
+.opt.right .tag{color:var(--good)}
+.why{
+  font-family:var(--sans);font-size:13.5px;line-height:22px;color:var(--ink-soft);
+  margin:0;padding:0 16px 12px 52px;
+}
+.why.ok{color:var(--good)}
+.verdict{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+.verdict.ok{color:var(--good)}
+.verdict.no{color:var(--pen)}
+.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+button.go{
+  font-family:var(--sans);font-size:14px;letter-spacing:.02em;background:var(--ink);color:#fff;
+  border:1px solid var(--ink);border-radius:2px;padding:10px 22px;cursor:pointer;
+}
+button.go:disabled{background:transparent;color:var(--ink-faint);border-color:var(--line);cursor:not-allowed}
+button.ghost{
+  font-family:var(--sans);font-size:14px;background:transparent;color:var(--ink-soft);
+  border:1px solid var(--line);border-radius:2px;padding:10px 18px;cursor:pointer;
+}
+button.ghost:hover{color:var(--ink);border-color:var(--ink-soft)}
+.hint{font-family:var(--sans);font-size:12px;color:var(--ink-faint);margin-left:auto}
+@media(max-width:700px){.hint{display:none}}
+
+.score{font-size:64px;line-height:72px;margin:0}
+.score small{font-size:24px;color:var(--ink-faint)}
+.breakdown{display:grid;gap:8px;margin:24px 0 32px}
+.brow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:baseline;font-family:var(--sans);font-size:13px}
+.brow .track{grid-column:1/-1;height:4px;background:var(--line)}
+.brow .track i{display:block;height:4px;background:var(--ink)}
+.brow .track i.low{background:var(--pen)}
+.review{border-top:1px solid var(--line)}
+.rev{border-bottom:1px solid var(--line);padding:12px 0}
+.rev summary{cursor:pointer;font-size:16px;line-height:26px;list-style:none;display:flex;gap:12px}
+.rev summary::-webkit-details-marker{display:none}
+.rev summary .n{font-family:var(--sans);font-size:12px;color:var(--pen);min-width:28px;flex:none;line-height:26px}
+.rev[open] summary{margin-bottom:12px}
+.rev .opts{margin-bottom:0}
+:focus-visible{outline:2px solid var(--pen);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="sheet"><div class="wrap" id="app"></div></div>
+<script>
+const TESTS = [
+{
+  id: 1, name: "Practice Test 1", theme: "Landing in Austin",
+  parts: [
+   {t:"Part 1 · Past Perfect & Narrative Tenses", q:[
+    {q:"By the time the plane landed, Maxime ______ his American playlist three times.",
+     o:["listened to","had listened to","was listening to","has listened to"], a:1,
+     e:["The simple past only reports an action; it doesn’t show it was finished before the plane landed.",
+        "Correct. The past perfect shows an action completed before another past moment (“by the time the plane landed”).",
+        "The past continuous shows an action in progress, not one repeated and completed three times.",
+        "The present perfect can’t be used inside a finished past time frame."]},
+    {q:"He ______ the apartment online, so the real thing was a shock.",
+     o:["only sees","had only seen","was only seeing","has only seen"], a:1,
+     e:["The present simple describes habits and facts, not a past story.",
+        "Correct. He saw the photos before the moment of the shock, so the past perfect is used.",
+        "“See” is a state verb here, so the continuous doesn’t work.",
+        "The present perfect connects the past to now; this whole story is in the past."]},
+    {q:"While Léa ______ her keynote, the fire alarm went off.",
+     o:["rehearsed","had rehearsed","was rehearsing","has rehearsed"], a:2,
+     e:["The simple past would mean the rehearsal happened and finished; here it was interrupted.",
+        "The past perfect would place the rehearsal before the alarm instead of around it.",
+        "Correct. The past continuous gives the longer action that a shorter one interrupts.",
+        "The present perfect is never used to narrate a specific past scene."]},
+    {q:"She couldn’t pay for the taxi because she ______ her wallet at the hotel.",
+     o:["leaves","had left","was leaving","has left"], a:1,
+     e:["The present simple can’t explain a past problem.",
+        "Correct. The wallet was left before the moment she couldn’t pay.",
+        "The continuous suggests an action in progress; leaving a wallet is one completed act.",
+        "The present perfect doesn’t fit a narrative already set in the past."]},
+    {q:"They ______ in the queue for two hours when the consulate finally opened.",
+     o:["waited","were waiting","had been waiting","have been waiting"], a:2,
+     e:["The simple past gives no link with the moment the consulate opened.",
+        "The past continuous shows the action in progress but not the two hours leading up to that point.",
+        "Correct. The past perfect continuous measures how long something had gone on before a past moment.",
+        "The present perfect continuous measures duration up to now, not up to a past moment."]},
+    {q:"He ______ the door and immediately knew something was wrong.",
+     o:["had opened","opened","was opening","has opened"], a:1,
+     e:["The past perfect is for an action clearly earlier than the story; these two follow each other directly.",
+        "Correct. Two short consecutive actions in a narrative both take the simple past.",
+        "The continuous would stretch out an action that was instant.",
+        "The present perfect can’t be mixed into a past narrative."]},
+    {q:"Before he moved to Texas, he ______ on the right-hand side of the road.",
+     o:["never drove","had never driven","has never driven","was never driving"], a:1,
+     e:["The simple past doesn’t make the “before that moment” relationship explicit.",
+        "Correct. The past perfect expresses experience up to a point in the past.",
+        "The present perfect would mean “never in his life up to now”.",
+        "The past continuous can’t express an experience that never happened."]},
+    {q:"I ______ my emails when the immigration officer called my name.",
+     o:["checked","had checked","was checking","have checked"], a:2,
+     e:["The simple past would make it a completed action rather than the background of the scene.",
+        "The past perfect would place it before the officer spoke, which loses the interruption.",
+        "Correct. The past continuous sets the background action that gets interrupted.",
+        "The present perfect doesn’t belong in a past narrative."]},
+    {q:"After the investors ______, the team celebrated all night.",
+     o:["were leaving","had left","have left","leave"], a:1,
+     e:["The past continuous shows an action in progress, not one finished before the party.",
+        "Correct. The past perfect marks the earlier of two past actions.",
+        "The present perfect can’t be used in a past narrative.",
+        "The present simple can’t report a past event."]},
+    {q:"Halfway through the meeting she realised she ______ the same mistake twice.",
+     o:["makes","was making","has made","had made"], a:3,
+     e:["The present simple can’t describe something that happened before a past realisation.",
+        "The continuous doesn’t express a repeated, completed action (“twice”).",
+        "The present perfect would link the mistakes to now, not to the meeting.",
+        "Correct. The mistakes came before the moment she realised, so the past perfect is used."]}
+   ]},
+   {t:"Part 2 · Future Continuous & Future Forms", q:[
+    {q:"This time tomorrow, I ______ over the Atlantic.",
+     o:["fly","will fly","will be flying","am flying"], a:2,
+     e:["The present simple is for timetables and habits, not a moment in progress tomorrow.",
+        "“Will fly” states a future fact; it doesn’t show the action in progress at that exact time.",
+        "Correct. The future continuous describes an action in progress at a precise future moment.",
+        "The present continuous is for arrangements; “this time tomorrow” calls for an action in progress."]},
+    {q:"Look at those clouds — it ______ .",
+     o:["will rain","is going to rain","will be raining","rains"], a:1,
+     e:["“Will” is for predictions with no present evidence, or decisions made while speaking.",
+        "Correct. “Going to” is used for a prediction based on evidence you can see now.",
+        "The future continuous would describe rain in progress at a stated future time.",
+        "The present simple would describe a habit or a general fact, not this moment."]},
+    {q:"According to the schedule, the shuttle ______ at 6:40.",
+     o:["will leave","leaves","will be leaving","is leaving"], a:1,
+     e:["“Will leave” sounds like a prediction or a decision, not a published timetable.",
+        "Correct. The present simple is used for timetables and scheduled events.",
+        "The future continuous describes an action in progress at a future moment.",
+        "The present continuous is for personal arrangements, not official timetables."]},
+    {q:"“My flight lands at eleven.” — “Don’t worry, I ______ you.”",
+     o:["pick up","will pick up","am picking up","will be picking up"], a:1,
+     e:["The present simple can’t express a decision about the future.",
+        "Correct. “Will” expresses a decision made at the moment of speaking.",
+        "The present continuous would mean the arrangement already existed before this conversation.",
+        "The future continuous would describe the action in progress at a given time."]},
+    {q:"By the end of the month, we ______ forty interviews.",
+     o:["will finish","will be finishing","will have finished","finish"], a:2,
+     e:["“Will finish” doesn’t express completion before a deadline.",
+        "The future continuous shows an action in progress, not a finished total.",
+        "Correct. The future perfect is used for something completed before a future point (“by…”).",
+        "The present simple can’t express a future result."]},
+    {q:"Don’t call at eight — we ______ dinner with Priya’s family.",
+     o:["have","will have","are have","will be having"], a:3,
+     e:["The present simple describes routines, not one specific evening.",
+        "“Will have” states a future fact; here the point is being in the middle of dinner.",
+        "This is not a possible verb form in English.",
+        "Correct. The future continuous describes an action in progress at a stated time."]},
+    {q:"At 10 a.m. tomorrow, the board ______ the budget.",
+     o:["will be discussing","discusses","will have discussed","discussed"], a:0,
+     e:["Correct. The future continuous describes an action in progress at a precise future time.",
+        "The present simple would suggest a habit, not one specific meeting.",
+        "The future perfect would mean the discussion is already over by 10 a.m.",
+        "The simple past puts the meeting in the past, but “tomorrow” is in the future."]},
+    {q:"I’ve made up my mind: I ______ my notice.",
+     o:["will hand in","am going to hand in","hand in","will be handing in"], a:1,
+     e:["“Will” suits a decision taken while speaking; this decision is already made.",
+        "Correct. “Be going to” expresses an intention decided before the moment of speaking.",
+        "The sentence needs a future form; the present simple can’t express an intention.",
+        "The future continuous describes an action in progress at a future moment."]},
+    {q:"Which sentence is in the future continuous?",
+     o:["We will have moved by June.","We are moving in June.","We will be moving all through June.","We move in June."], a:2,
+     e:["This is the future perfect: “will have” + past participle.",
+        "This is the present continuous used for a future arrangement.",
+        "Correct. “Will be” + -ing is the future continuous.",
+        "This is the present simple used for a fixed schedule."]},
+    {q:"I’ll email you as soon as I ______ the signed contract.",
+     o:["will get","get","will be getting","am getting"], a:1,
+     e:["After time words like “as soon as”, “when” and “until”, we don’t use “will”.",
+        "Correct. The present simple follows a time conjunction, even when we talk about the future.",
+        "Same problem: no future form after “as soon as”.",
+        "The present continuous suggests an arrangement, which doesn’t fit this condition."]}
+   ]},
+   {t:"Part 3 · Reported Speech", q:[
+    {q:"“Your English is improving,” she said. → She said that my English ______ .",
+     o:["is improving","was improving","has improved","improves"], a:1,
+     e:["This is the direct-speech tense; after a past reporting verb it normally shifts back.",
+        "Correct. The present continuous becomes the past continuous.",
+        "The present perfect changes the meaning and isn’t the backshift of “is improving”.",
+        "The present simple loses the “in progress” idea and doesn’t backshift."]},
+    {q:"“You can call me any time.” → He told me that I ______ call him any time.",
+     o:["could","can","would","might"], a:0,
+     e:["Correct. “Can” becomes “could” after a past reporting verb.",
+        "“Can” is the direct-speech form; it needs to shift back.",
+        "“Would” is the backshift of “will”, not of “can”.",
+        "“Might” changes the meaning from permission to possibility."]},
+    {q:"“Send me the file before noon.” → She told me ______ the file before noon.",
+     o:["send","to send","sending","that send"], a:1,
+     e:["A bare infinitive can’t follow “told me”.",
+        "Correct. Reported orders use “tell somebody to do something”.",
+        "The -ing form doesn’t follow “tell someone”.",
+        "A “that” clause needs a subject and a full verb."]},
+    {q:"“Do you like Austin?” → He asked me ______ Austin.",
+     o:["do I like","if I liked","that I liked","if did I like"], a:1,
+     e:["Reported questions don’t keep question word order or the auxiliary “do”.",
+        "Correct. “If” + normal word order + backshift.",
+        "“That” introduces reported statements, not questions.",
+        "This mixes “if” with question word order and “did”."]},
+    {q:"“Why are you leaving?” → She asked me why ______ .",
+     o:["was I leaving","I was leaving","am I leaving","I leave"], a:1,
+     e:["Reported questions use statement word order, without inversion.",
+        "Correct. Subject before verb, with the tense shifted back.",
+        "This keeps both the inversion and the present tense.",
+        "The present simple loses the continuous meaning and the backshift."]},
+    {q:"“I’ll review it tomorrow.” → He said he ______ it the next day.",
+     o:["will review","would review","reviewed","had reviewed"], a:1,
+     e:["“Will” must shift back after a past reporting verb.",
+        "Correct. “Will” becomes “would”.",
+        "The simple past loses the future meaning of the original.",
+        "The past perfect would place the review before the moment of speaking."]},
+    {q:"Choose the correct sentence.",
+     o:["He said me he was tired.","He told me he was tired.","He told to me he was tired.","He said to me that tired."], a:1,
+     e:["“Say” is not followed directly by a person.",
+        "Correct. “Tell” takes a person immediately after it.",
+        "“Tell” never takes “to” before the person.",
+        "The final clause has no subject or verb."]},
+    {q:"“Don’t reply to that email.” → She told me ______ to that email.",
+     o:["to not reply","not to reply","don’t reply","no reply"], a:1,
+     e:["The negative goes before “to”, not after it.",
+        "Correct. Negative orders use “not to” + verb.",
+        "A direct-speech imperative can’t follow “told me”.",
+        "This is not a verb form."]},
+    {q:"“We signed the contract yesterday.” → They said they ______ the contract the day before.",
+     o:["signed","have signed","had signed","were signing"], a:2,
+     e:["Without the backshift, the sequence with “the day before” sounds unnatural.",
+        "The present perfect can’t be used with a specific past time.",
+        "Correct. A past simple in direct speech becomes a past perfect.",
+        "The continuous changes the meaning to an action in progress."]},
+    {q:"Priya still lives in Boston today. Which report sounds most natural?",
+     o:["She said she lives in Boston.","She told she lives in Boston.","She said she had lived in Boston.","She said she would live in Boston."], a:0,
+     e:["Correct. When the fact is still true, keeping the present tense is natural.",
+        "“Tell” needs a person after it (“told me”).",
+        "The past perfect suggests she doesn’t live there any more.",
+        "“Would live” turns a present fact into a future plan."]}
+   ]},
+   {t:"Part 4 · Active & Passive Voice", q:[
+    {q:"Someone stole his laptop at the airport. → His laptop ______ at the airport.",
+     o:["was stolen","was stole","stole","has stole"], a:0,
+     e:["Correct. Past simple passive: “was” + past participle.",
+        "“Stole” is the past simple; the passive needs the participle “stolen”.",
+        "This is the active form, and the laptop didn’t steal anything.",
+        "Wrong auxiliary and wrong participle."]},
+    {q:"All payments ______ in dollars.",
+     o:["are processing","process","are processed","processed"], a:2,
+     e:["The active continuous suggests the payments process themselves.",
+        "The active present simple; payments don’t process anything.",
+        "Correct. Present simple passive for a general procedure.",
+        "The past simple active, while the sentence states a general rule."]},
+    {q:"The results ______ next Monday.",
+     o:["will announce","will be announced","are announcing","announce"], a:1,
+     e:["Active: the results can’t announce themselves.",
+        "Correct. Future passive: “will be” + past participle.",
+        "Active continuous with a subject that doesn’t act.",
+        "Active present simple, and the time is in the future."]},
+    {q:"This bug ______ three times already.",
+     o:["has been reported","has reported","is reported","was reporting"], a:0,
+     e:["Correct. Present perfect passive for a result that matters now (“already”).",
+        "Active: the bug isn’t reporting anything.",
+        "The present simple passive doesn’t fit “three times already”.",
+        "Past continuous active, which doesn’t work here."]},
+    {q:"“The keynote was written by Léa.” In the active voice, this is:",
+     o:["Léa was written the keynote.","The keynote wrote Léa.","Léa wrote the keynote.","Léa has written by the keynote."], a:2,
+     e:["This keeps a passive verb with the wrong subject.",
+        "This reverses the roles: the keynote didn’t write anyone.",
+        "Correct. The agent becomes the subject and the verb becomes active.",
+        "“By” can’t stay in an active sentence."]},
+    {q:"The invoices ______ yet.",
+     o:["haven’t paid","aren’t paying","weren’t paid","haven’t been paid"], a:3,
+     e:["Active: invoices don’t pay anything.",
+        "Active continuous, with the wrong meaning.",
+        "The past simple passive doesn’t fit “yet”, which points to now.",
+        "Correct. Present perfect passive: “haven’t been” + past participle."]},
+    {q:"The office ______ at the moment, so we’re all remote.",
+     o:["is renovating","is being renovated","renovates","has renovated"], a:1,
+     e:["Active: the office isn’t doing the work.",
+        "Correct. Present continuous passive: “is being” + past participle.",
+        "Active present simple, and wrong for “at the moment”.",
+        "Active present perfect, with the wrong subject."]},
+    {q:"When is it better to use the passive?",
+     o:["When you want to hide a grammar mistake","When the action matters more than who did it","Whenever the sentence feels too short","When the verb has no object"], a:1,
+     e:["The passive is not a way to cover up mistakes.",
+        "Correct. The passive puts the focus on the action or the result.",
+        "Length is not a reason to change the voice.",
+        "Only verbs that take an object can be made passive, so this is the opposite."]},
+    {q:"Every application ______ by two engineers before Friday.",
+     o:["will review","reviews","will be reviewed","is reviewing"], a:2,
+     e:["Active, with a subject that doesn’t perform the action.",
+        "Active present simple; applications don’t review anything.",
+        "Correct. Future passive, with the agent introduced by “by”.",
+        "Active continuous, with the wrong meaning."]},
+    {q:"The report ______ right now, so I can’t send it yet.",
+     o:["is written","writes","is being written","has written"], a:2,
+     e:["The present simple passive states a general fact, not an action happening now.",
+        "Active: the report doesn’t write itself.",
+        "Correct. “Is being written” expresses a passive action in progress.",
+        "Active present perfect, with the wrong subject."]}
+   ]},
+   {t:"Part 5 · Linking Words", q:[
+    {q:"______ the traffic, we arrived on time.",
+     o:["Despite","Although","Because","However"], a:0,
+     e:["Correct. “Despite” is followed by a noun.",
+        "“Although” needs a subject and a verb after it.",
+        "“Because” introduces a cause, and it needs a full clause.",
+        "“However” links two separate sentences, not a noun."]},
+    {q:"The presentation was long; ______, nobody complained.",
+     o:["therefore","however","because","so that"], a:1,
+     e:["“Therefore” introduces a result, but the second idea doesn’t follow from the first.",
+        "Correct. “However” introduces a contrast between two sentences.",
+        "“Because” gives a reason and can’t stand between two independent clauses like this.",
+        "“So that” introduces a purpose."]},
+    {q:"She practised every evening; ______, her accent improved fast.",
+     o:["although","whereas","as a result","despite"], a:2,
+     e:["“Although” introduces a contrast, but the two ideas agree here.",
+        "“Whereas” compares two contrasting facts.",
+        "Correct. “As a result” introduces a consequence.",
+        "“Despite” is followed by a noun and expresses contrast."]},
+    {q:"______ he had prepared for weeks, he still felt nervous.",
+     o:["Despite","Although","Therefore","Because of"], a:1,
+     e:["“Despite” is followed by a noun or an -ing form, not a full clause.",
+        "Correct. “Although” + subject + verb introduces a contrast.",
+        "“Therefore” introduces a result, not a contrast.",
+        "“Because of” gives a cause and is followed by a noun."]},
+    {q:"We stayed an extra day ______ visit the coast.",
+     o:["in order to","so that","because","for"], a:0,
+     e:["Correct. “In order to” + infinitive expresses purpose.",
+        "“So that” needs a clause with a subject and usually a modal.",
+        "“Because” needs a subject and a verb.",
+        "“For” + verb is not used to express purpose."]},
+    {q:"The interface is simple; ______, it hides some very complex code.",
+     o:["as a result","nevertheless","therefore","in addition"], a:1,
+     e:["This is a contradiction, not a result.",
+        "Correct. “Nevertheless” signals a surprising contrast.",
+        "“Therefore” introduces a logical consequence.",
+        "“In addition” adds a similar idea."]},
+    {q:"The project succeeded ______ the whole team’s effort.",
+     o:["although","thanks to","however","whereas"], a:1,
+     e:["“Although” introduces a clause and a contrast.",
+        "Correct. “Thanks to” + noun gives a positive cause.",
+        "“However” links two sentences with a contrast.",
+        "“Whereas” compares two opposite facts."]},
+    {q:"We rewrote the whole page ______ the client would understand it.",
+     o:["so that","in order to","because of","despite"], a:0,
+     e:["Correct. “So that” introduces a purpose clause with a subject and a modal.",
+        "“In order to” is followed by an infinitive, not a clause.",
+        "“Because of” takes a noun and gives a cause.",
+        "“Despite” takes a noun and expresses contrast."]},
+    {q:"Maxime works in English, ______ his brother works in French.",
+     o:["therefore","whereas","because","so"], a:1,
+     e:["There is no cause-and-effect link between the two facts.",
+        "Correct. “Whereas” contrasts two parallel facts.",
+        "One fact isn’t the reason for the other.",
+        "“So” introduces a result."]},
+    {q:"First we tested the app; ______ we published it.",
+     o:["however","then","although","whereas"], a:1,
+     e:["“However” would signal a contrast, but these steps simply follow each other.",
+        "Correct. “Then” marks the next step in a sequence.",
+        "“Although” introduces a contrast clause.",
+        "“Whereas” compares two opposite facts."]}
+   ]}
+  ]
+},
+{
+  id: 2, name: "Practice Test 2", theme: "The first weeks at work",
+  parts: [
+   {t:"Part 1 · Past Perfect & Narrative Tenses", q:[
+    {q:"When Maxime got to the office, everyone ______ home.",
+     o:["went","has gone","had gone","was going"], a:2,
+     e:["The simple past doesn’t make it clear that they left before he arrived.",
+        "The present perfect can’t be used inside a past narrative.",
+        "Correct. The past perfect shows they had left before he arrived.",
+        "The past continuous would mean they were on their way at that moment."]},
+    {q:"She was exhausted because she ______ since five in the morning.",
+     o:["worked","has worked","had been working","was working"], a:2,
+     e:["The simple past doesn’t express duration up to a past moment.",
+        "The present perfect measures time up to now, not up to a moment in the past.",
+        "Correct. The past perfect continuous expresses how long something had gone on before a past moment.",
+        "The past continuous can’t be used with “since” to measure duration."]},
+    {q:"The meeting ______ when he finally found the right room.",
+     o:["already started","had already started","has already started","already starts"], a:1,
+     e:["Without the past perfect, the order of the two events isn’t clear.",
+        "Correct. The past perfect shows the meeting began before he arrived.",
+        "The present perfect doesn’t belong in a past narrative.",
+        "The present simple can’t describe a past event."]},
+    {q:"As he ______ across the parking lot, he dropped his badge.",
+     o:["walked","was walking","had walked","has walked"], a:1,
+     e:["The simple past would present the walk as a complete action, not the background.",
+        "Correct. The past continuous gives the longer action during which something short happens.",
+        "The past perfect would place the walk before the story.",
+        "The present perfect doesn’t work in a past narrative."]},
+    {q:"They ______ each other for years before they became colleagues.",
+     o:["knew","have known","had known","were knowing"], a:2,
+     e:["The simple past doesn’t show that this was true before another past event.",
+        "The present perfect would mean they still know each other now, up to today.",
+        "Correct. The past perfect covers the period before “they became colleagues”.",
+        "“Know” is a state verb and isn’t used in the continuous."]},
+    {q:"The moment the CEO stood up, everyone ______ talking.",
+     o:["had stopped","stopped","was stopping","has stopped"], a:1,
+     e:["The past perfect would place the silence before he stood up.",
+        "Correct. Two short actions happening one after the other both take the simple past.",
+        "The continuous stretches out an action that was immediate.",
+        "The present perfect can’t narrate a past scene."]},
+    {q:"He apologised because he ______ the deadline.",
+     o:["misses","had missed","was missing","has missed"], a:1,
+     e:["The present simple can’t give a past reason.",
+        "Correct. He missed the deadline before he apologised.",
+        "The continuous suggests an action in progress rather than a completed fact.",
+        "The present perfect links the event to now, but the story is in the past."]},
+    {q:"It was her first demo: she ______ in front of clients before.",
+     o:["never spoke","has never spoken","had never spoken","was never speaking"], a:2,
+     e:["The simple past doesn’t express experience up to a past moment.",
+        "The present perfect would mean “never up to now”.",
+        "Correct. The past perfect expresses experience before a moment in the past.",
+        "The past continuous can’t describe an experience that never happened."]},
+    {q:"While the servers ______, the team ordered pizza.",
+     o:["restarted","were restarting","had restarted","have restarted"], a:1,
+     e:["The simple past would present the restart as a single finished event.",
+        "Correct. The past continuous describes what was going on at the same time.",
+        "The past perfect would mean the restart was over before the pizza.",
+        "The present perfect can’t be used in a past narrative."]},
+    {q:"By the time we noticed the bug, hundreds of users ______ it.",
+     o:["already saw","have already seen","had already seen","were already seeing"], a:2,
+     e:["The simple past doesn’t show that this happened before we noticed.",
+        "The present perfect can’t follow “by the time we noticed”.",
+        "Correct. The past perfect shows what had happened before that past moment.",
+        "The continuous doesn’t fit a completed action with a number of people."]}
+   ]},
+   {t:"Part 2 · Future Continuous & Future Forms", q:[
+    {q:"At seven tomorrow evening, I ______ my first American football game.",
+     o:["watch","will watch","will be watching","am watch"], a:2,
+     e:["The present simple is for habits and timetables.",
+        "“Will watch” states a fact; it doesn’t show the action in progress at that time.",
+        "Correct. The future continuous describes an action in progress at a precise future time.",
+        "This is not a possible verb form."]},
+    {q:"Careful — you ______ that box!",
+     o:["will drop","are going to drop","will be dropping","drop"], a:1,
+     e:["“Will” is for predictions with no visible evidence.",
+        "Correct. “Going to” is used when you can see the event coming right now.",
+        "The future continuous would describe an action in progress at a stated moment.",
+        "The present simple describes habits and general facts."]},
+    {q:"I promise I ______ anyone.",
+     o:["don’t tell","won’t tell","am not telling","won’t be telling"], a:1,
+     e:["The present simple can’t express a promise about the future.",
+        "Correct. “Will” is used for promises and decisions made while speaking.",
+        "The present continuous refers to an arrangement already fixed.",
+        "The future continuous describes an action in progress at a future moment."]},
+    {q:"What ______ at eight tonight? Can we call you?",
+     o:["will you do","are you do","will you be doing","do you do"], a:2,
+     e:["“Will you do” sounds like a request rather than a question about plans.",
+        "This is not a possible verb form.",
+        "Correct. The future continuous asks politely what will be in progress at that time.",
+        "The present simple asks about a habit or a job."]},
+    {q:"By 2030, the company ______ to twenty countries.",
+     o:["will expand","will be expanding","will have expanded","expands"], a:2,
+     e:["“Will expand” doesn’t express completion before a future date.",
+        "The future continuous shows an action in progress, not a finished result.",
+        "Correct. The future perfect expresses what is completed before a future point.",
+        "The present simple can’t express a future result."]},
+    {q:"Wait here; I ______ a taxi for you.",
+     o:["call","am calling","will call","will be calling"], a:2,
+     e:["The present simple can’t express an offer.",
+        "The present continuous would mean the taxi was already arranged.",
+        "Correct. “Will” expresses an offer or a decision made at the moment of speaking.",
+        "The future continuous describes an action in progress at a future moment."]},
+    {q:"This time next month, we ______ in our new apartment.",
+     o:["live","will live","will be living","are live"], a:2,
+     e:["The present simple describes a current situation, not a future moment.",
+        "“Will live” states a general future fact rather than the situation at that precise time.",
+        "Correct. The future continuous fits “this time next month”.",
+        "This is not a possible verb form."]},
+    {q:"Which sentence expresses an intention decided before now?",
+     o:["I’ll call her later.","I’m going to call her later.","I call her later.","I will be calling her later."], a:1,
+     e:["“Will” shows a decision taken at the moment of speaking.",
+        "Correct. “Be going to” expresses a plan decided before speaking.",
+        "The present simple can’t express a personal plan.",
+        "The future continuous describes an action in progress at a future moment."]},
+    {q:"Which sentence is in the future continuous?",
+     o:["The team will have arrived by noon.","The team arrives at noon.","The team will be arriving all morning.","The team is going to arrive at noon."], a:2,
+     e:["This is the future perfect.",
+        "This is the present simple used for a timetable.",
+        "Correct. “Will be” + -ing is the future continuous.",
+        "This is “be going to” for a plan or prediction."]},
+    {q:"Call me when you ______ at the hotel.",
+     o:["will arrive","arrive","are arriving","will be arriving"], a:1,
+     e:["We don’t use “will” after “when” in a future time clause.",
+        "Correct. The present simple follows “when” even when we talk about the future.",
+        "The present continuous suggests a fixed arrangement, not a condition.",
+        "The future continuous can’t follow “when” in a time clause."]}
+   ]},
+   {t:"Part 3 · Reported Speech", q:[
+    {q:"“I’m learning Spanish,” he said. → He said that he ______ Spanish.",
+     o:["is learning","was learning","has learned","learns"], a:1,
+     e:["The present continuous normally shifts back after a past reporting verb.",
+        "Correct. The present continuous becomes the past continuous.",
+        "The present perfect changes the meaning to a finished result.",
+        "The present simple loses both the backshift and the “in progress” idea."]},
+    {q:"“We may be late.” → They said they ______ be late.",
+     o:["may","might","must","can"], a:1,
+     e:["“May” normally shifts back after a past reporting verb.",
+        "Correct. “May” becomes “might”.",
+        "“Must” expresses obligation, not possibility.",
+        "“Can” expresses ability or permission, not possibility."]},
+    {q:"“Could you resend the invoice?” → She asked me ______ the invoice.",
+     o:["resend","to resend","resending","that resend"], a:1,
+     e:["A bare infinitive can’t follow “asked me”.",
+        "Correct. Reported requests use “ask somebody to do something”.",
+        "The -ing form doesn’t follow “ask someone”.",
+        "A “that” clause needs a subject and a full verb."]},
+    {q:"“Have you finished?” → He asked me ______ finished.",
+     o:["if I had","had I","that I had","if had I"], a:0,
+     e:["Correct. “If” + statement word order + backshift of the present perfect.",
+        "Reported questions don’t keep the inversion.",
+        "“That” is used for statements, not questions.",
+        "This keeps question word order after “if”."]},
+    {q:"“What time does the store open?” → I asked what time ______ .",
+     o:["did the store open","the store opened","does the store open","opened the store"], a:1,
+     e:["Reported questions don’t keep the auxiliary “do/did”.",
+        "Correct. Statement word order with the tense shifted back.",
+        "This keeps direct-question form and the present tense.",
+        "The word order is inverted, which reported questions avoid."]},
+    {q:"“I’m meeting the lawyer tomorrow,” she said last week. → She said she was meeting the lawyer ______ .",
+     o:["tomorrow","the next day","yesterday","this day"], a:1,
+     e:["“Tomorrow” refers to the day after today, not the day after she spoke.",
+        "Correct. Time words shift too: tomorrow → the next day.",
+        "“Yesterday” points backwards, which reverses the meaning.",
+        "This is not a natural time expression in English."]},
+    {q:"Choose the correct sentence.",
+     o:["She explained me the process.","She explained the process to me.","She said me the process.","She told the process to me."], a:1,
+     e:["“Explain” is never followed directly by a person.",
+        "Correct. “Explain something to somebody”.",
+        "“Say” is not followed directly by a person either.",
+        "“Tell” takes the person first: “told me the process”."]},
+    {q:"“Please don’t be late.” → He asked me ______ late.",
+     o:["to not be","not to be","don’t be","not being"], a:1,
+     e:["The negative goes before “to”.",
+        "Correct. Negative requests use “not to” + verb.",
+        "A direct imperative can’t follow “asked me”.",
+        "The -ing form doesn’t follow “ask someone”."]},
+    {q:"“I’ve never eaten Tex-Mex.” → He said he ______ Tex-Mex.",
+     o:["has never eaten","had never eaten","never eats","was never eating"], a:1,
+     e:["The present perfect shifts back after a past reporting verb.",
+        "Correct. The present perfect becomes the past perfect.",
+        "The present simple loses the idea of experience.",
+        "The past continuous doesn’t express experience."]},
+    {q:"“Where did you buy that jacket?” → She asked me where ______ that jacket.",
+     o:["did I buy","I had bought","had I bought","I buy"], a:1,
+     e:["Reported questions drop the auxiliary “did”.",
+        "Correct. Statement word order, and the past simple shifts to the past perfect.",
+        "The inversion belongs to direct questions only.",
+        "The present simple loses the past meaning."]}
+   ]},
+   {t:"Part 4 · Active & Passive Voice", q:[
+    {q:"They will interview the candidates on Tuesday. → The candidates ______ on Tuesday.",
+     o:["will interview","will be interviewed","are interviewing","will been interviewed"], a:1,
+     e:["Active: the candidates aren’t doing the interviewing.",
+        "Correct. Future passive: “will be” + past participle.",
+        "Active continuous, with the wrong meaning.",
+        "“Will been” is not a possible form."]},
+    {q:"The package ______ to the wrong address.",
+     o:["was delivered","was deliver","delivered","has deliver"], a:0,
+     e:["Correct. Past simple passive: “was” + past participle.",
+        "After “was” we need the past participle, not the base form.",
+        "Active: the package didn’t deliver anything.",
+        "Wrong participle and wrong meaning."]},
+    {q:"Passwords ______ every ninety days.",
+     o:["must change","must be changed","must changing","are must changed"], a:1,
+     e:["Active: passwords don’t change themselves.",
+        "Correct. Modal passive: modal + “be” + past participle.",
+        "A modal is followed by an infinitive, not an -ing form.",
+        "Two verbs can’t be combined this way."]},
+    {q:"The bridge ______ in 1937.",
+     o:["built","was building","was built","has built"], a:2,
+     e:["Active past simple: the bridge didn’t build anything.",
+        "Active continuous, with the wrong meaning.",
+        "Correct. Past simple passive with a finished date.",
+        "Active present perfect, and it can’t take a finished past date."]},
+    {q:"“Our data is encrypted by the provider.” In the active voice, this is:",
+     o:["The provider encrypts our data.","The provider is encrypted our data.","Our data encrypts the provider.","The provider encrypted by our data."], a:0,
+     e:["Correct. The agent becomes the subject and the verb becomes active.",
+        "This keeps a passive verb with an object, which isn’t possible.",
+        "This reverses the roles.",
+        "“By” can’t stay in an active sentence."]},
+    {q:"The office ______ since March.",
+     o:["closed","has been closed","is closing","was closing"], a:1,
+     e:["The simple past can’t be used with “since”.",
+        "Correct. Present perfect passive for a state continuing from a past point until now.",
+        "The present continuous doesn’t work with “since”.",
+        "The past continuous doesn’t express a state continuing until now."]},
+    {q:"Your application ______ at the moment.",
+     o:["is reviewing","is being reviewed","reviews","has reviewed"], a:1,
+     e:["Active: the application isn’t reviewing anything.",
+        "Correct. Present continuous passive: “is being” + past participle.",
+        "Active present simple, and wrong for “at the moment”.",
+        "Active present perfect, with the wrong subject."]},
+    {q:"Which sentence is in the passive?",
+     o:["The system crashed twice.","The system was crashing.","The system was rebooted twice.","The system has crashed twice."], a:2,
+     e:["Active past simple.",
+        "Active past continuous: “was” + -ing, not “was” + past participle.",
+        "Correct. “Was” + past participle is the passive.",
+        "Active present perfect."]},
+    {q:"I ______ about the dress code, so I wore a suit.",
+     o:["wasn’t told","didn’t tell","am not telling","hadn’t told"], a:0,
+     e:["Correct. Passive: the speaker received no information.",
+        "Active, which reverses the meaning: it says the speaker told nobody.",
+        "Active continuous, with the wrong meaning.",
+        "Active past perfect, again with the speaker as the person telling."]},
+    {q:"The keys ______ at reception, so we couldn’t get in.",
+     o:["had left","were leaving","had been left","have left"], a:2,
+     e:["Active: keys don’t leave anywhere by themselves.",
+        "Active continuous, with the wrong meaning.",
+        "Correct. Past perfect passive for something done before another past moment.",
+        "Active present perfect, and the story is in the past."]}
+   ]},
+   {t:"Part 5 · Linking Words", q:[
+    {q:"______ his strong accent, everyone understood him.",
+     o:["Despite","Although","Because","Therefore"], a:0,
+     e:["Correct. “Despite” + noun phrase expresses contrast.",
+        "“Although” needs a subject and a verb after it.",
+        "“Because” gives a cause and needs a clause.",
+        "“Therefore” introduces a result and can’t be followed by a noun."]},
+    {q:"It was raining; ______, the barbecue went ahead.",
+     o:["therefore","nevertheless","because","in addition"], a:1,
+     e:["“Therefore” introduces a result, but this is a surprise.",
+        "Correct. “Nevertheless” expresses an unexpected contrast.",
+        "“Because” gives a reason and can’t link two independent sentences like this.",
+        "“In addition” adds a similar idea."]},
+    {q:"He missed the train, ______ he arrived an hour late.",
+     o:["so","although","despite","whereas"], a:0,
+     e:["Correct. “So” introduces the result of the first clause.",
+        "“Although” would express a contrast, but this is a logical consequence.",
+        "“Despite” is followed by a noun and expresses contrast.",
+        "“Whereas” compares two opposite facts."]},
+    {q:"The meeting was moved online ______ the strike.",
+     o:["because","because of","although","so"], a:1,
+     e:["“Because” must be followed by a subject and a verb.",
+        "Correct. “Because of” + noun gives a cause.",
+        "“Although” expresses contrast and needs a clause.",
+        "“So” introduces a result, not a cause."]},
+    {q:"She takes notes in English ______ improve faster.",
+     o:["so that","for","in order to","because"], a:2,
+     e:["“So that” needs a clause with a subject.",
+        "“For” + verb is not used to express purpose.",
+        "Correct. “In order to” + infinitive expresses purpose.",
+        "“Because” needs a subject and a verb."]},
+    {q:"We can meet on Monday; ______, Tuesday works too.",
+     o:["alternatively","therefore","because","despite"], a:0,
+     e:["Correct. “Alternatively” introduces another possible option.",
+        "“Therefore” introduces a consequence.",
+        "“Because” gives a reason and needs a clause.",
+        "“Despite” takes a noun and expresses contrast."]},
+    {q:"______ working late every night, he never finished on time.",
+     o:["Although","Despite","However","Because"], a:1,
+     e:["“Although” is followed by a subject and a verb, not an -ing form.",
+        "Correct. “Despite” can be followed by an -ing form.",
+        "“However” links two sentences and needs a comma and a clause.",
+        "“Because” gives a cause and needs a clause."]},
+    {q:"The app is free, ______ the desktop version costs nine euros.",
+     o:["therefore","whereas","so","because"], a:1,
+     e:["There is no cause-and-effect link between the two facts.",
+        "Correct. “Whereas” contrasts two parallel facts.",
+        "“So” introduces a result.",
+        "One fact isn’t the reason for the other."]},
+    {q:"He forgot his passport; ______, he missed the flight.",
+     o:["however","as a result","although","whereas"], a:1,
+     e:["“However” signals a contrast, but this is a direct consequence.",
+        "Correct. “As a result” introduces a consequence.",
+        "“Although” introduces a contrast clause.",
+        "“Whereas” compares two opposite facts."]},
+    {q:"First, plug in the cable; ______, press the blue button.",
+     o:["however","although","then","whereas"], a:2,
+     e:["“However” would signal a contrast between the two steps.",
+        "“Although” introduces a contrast clause.",
+        "Correct. “Then” marks the next step in a sequence.",
+        "“Whereas” compares two opposite facts."]}
+   ]}
+  ]
+},
+{
+  id: 3, name: "Practice Test 3", theme: "The road trip",
+  parts: [
+   {t:"Part 1 · Past Perfect & Narrative Tenses", q:[
+    {q:"We ______ for six hours before we saw the first gas station.",
+     o:["drove","had driven","have driven","were driving"], a:1,
+     e:["The simple past doesn’t show the period leading up to the second event.",
+        "Correct. The past perfect covers the time before another past action.",
+        "The present perfect measures time up to now, not up to a past moment.",
+        "The past continuous shows an action in progress, not a completed six hours."]},
+    {q:"The sun ______ when we finally reached the canyon.",
+     o:["already set","had already set","has already set","was already set"], a:1,
+     e:["Without the past perfect, the order of the events isn’t clear.",
+        "Correct. The sunset happened before we arrived.",
+        "The present perfect can’t be used in a past narrative.",
+        "“Was set” is passive and doesn’t describe the sun going down."]},
+    {q:"While Léa ______, Maxime studied the map.",
+     o:["drove","was driving","had driven","has driven"], a:1,
+     e:["The simple past presents the drive as one finished action, not the background.",
+        "Correct. The past continuous describes two things happening at the same time.",
+        "The past perfect would place the drive before the map reading.",
+        "The present perfect can’t narrate a past scene."]},
+    {q:"He knew the road well because he ______ it twice before.",
+     o:["took","had taken","has taken","was taking"], a:1,
+     e:["The simple past doesn’t make the earlier experience explicit.",
+        "Correct. The past perfect expresses experience before a past moment.",
+        "The present perfect would mean “up to now”.",
+        "The continuous doesn’t express a repeated, completed experience."]},
+    {q:"When we got to the motel, someone ______ our room.",
+     o:["already took","has already taken","had already taken","was already taking"], a:2,
+     e:["The simple past doesn’t show that this happened first.",
+        "The present perfect doesn’t belong in a past narrative.",
+        "Correct. The past perfect shows what had happened before we arrived.",
+        "The continuous would mean the action was in progress as we walked in."]},
+    {q:"She ______ the engine and the car finally started.",
+     o:["had restarted","restarted","was restarting","has restarted"], a:1,
+     e:["The past perfect separates the two actions more than the sentence needs.",
+        "Correct. Two consecutive actions in a story both take the simple past.",
+        "The continuous stretches out an action that was immediate.",
+        "The present perfect can’t narrate a past scene."]},
+    {q:"They ______ the desert for three days when the storm hit.",
+     o:["crossed","had been crossing","have crossed","were crossed"], a:1,
+     e:["The simple past doesn’t link the three days to the storm.",
+        "Correct. The past perfect continuous gives the duration up to a past event.",
+        "The present perfect measures duration up to now.",
+        "“Were crossed” is passive: the desert didn’t cross them."]},
+    {q:"I didn’t recognise him: he ______ his beard.",
+     o:["shaved off","had shaved off","has shaved off","was shaving off"], a:1,
+     e:["The simple past doesn’t show that the change happened before I saw him.",
+        "Correct. The past perfect explains a situation with an earlier action.",
+        "The present perfect connects to now, but the story is in the past.",
+        "The continuous would mean he was shaving at that moment."]},
+    {q:"As the sun ______, we set up the tent.",
+     o:["set","was setting","had set","has set"], a:1,
+     e:["The simple past would present the sunset as a separate finished event.",
+        "Correct. The past continuous gives the background to a shorter action.",
+        "The past perfect would mean the sun had already gone down.",
+        "The present perfect can’t be used in a past narrative."]},
+    {q:"By midnight, we ______ four hundred miles.",
+     o:["covered","have covered","had covered","were covering"], a:2,
+     e:["The simple past doesn’t express a total reached by a past deadline.",
+        "The present perfect can’t follow “by midnight” in a past story.",
+        "Correct. “By” + past time takes the past perfect for a completed total.",
+        "The continuous doesn’t give a finished total."]}
+   ]},
+   {t:"Part 2 · Future Continuous & Future Forms", q:[
+    {q:"This time on Saturday, we ______ through Nevada.",
+     o:["drive","will drive","will be driving","are drive"], a:2,
+     e:["The present simple is for habits and timetables.",
+        "“Will drive” states a fact rather than showing the action in progress.",
+        "Correct. The future continuous fits “this time on Saturday”.",
+        "This is not a possible verb form."]},
+    {q:"The tank is almost empty — we ______ for fuel.",
+     o:["will stop","are going to stop","will be stopping","stop"], a:1,
+     e:["“Will” is for predictions without present evidence.",
+        "Correct. “Going to” is used for a prediction based on what you can see now.",
+        "The future continuous describes an action in progress at a stated time.",
+        "The present simple describes habits or timetables."]},
+    {q:"“Someone’s at the door.” — “I ______ it.”",
+     o:["get","am getting","will get","will be getting"], a:2,
+     e:["The present simple can’t express an immediate decision.",
+        "The present continuous would mean it was arranged in advance.",
+        "Correct. “Will” expresses a decision made at the moment of speaking.",
+        "The future continuous describes an action in progress at a future time."]},
+    {q:"What ______ this time next year?",
+     o:["will you do","will you be doing","do you do","are you do"], a:1,
+     e:["“Will you do” asks about an action rather than the situation at that moment.",
+        "Correct. The future continuous asks what will be in progress at a future time.",
+        "The present simple asks about a habit or a job.",
+        "This is not a possible verb form."]},
+    {q:"By Friday, the team ______ every bug on the list.",
+     o:["will fix","will be fixing","will have fixed","fixes"], a:2,
+     e:["“Will fix” doesn’t express completion before a deadline.",
+        "The future continuous shows an action in progress, not a finished result.",
+        "Correct. The future perfect expresses what is finished before a future point.",
+        "The present simple can’t express a future result."]},
+    {q:"Don’t phone between two and four — I ______ my driving test.",
+     o:["take","will take","will be taking","am take"], a:2,
+     e:["The present simple describes routines, not one specific afternoon.",
+        "“Will take” states a fact; here the point is being in the middle of the test.",
+        "Correct. The future continuous describes an action in progress across that period.",
+        "This is not a possible verb form."]},
+    {q:"The museum ______ at six on Sundays.",
+     o:["will close","closes","is closing","will be closing"], a:1,
+     e:["“Will close” sounds like a prediction, not an opening-hours rule.",
+        "Correct. The present simple is used for timetables and regular schedules.",
+        "The present continuous is for arrangements, not published hours.",
+        "The future continuous describes an action in progress at a future moment."]},
+    {q:"Which sentence shows a prediction based on evidence you can see?",
+     o:["It will rain tomorrow.","It’s going to rain — look at that sky.","It will be raining at noon.","It rains a lot here."], a:1,
+     e:["This is an opinion or a forecast, with no evidence mentioned.",
+        "Correct. “Going to” is used when present evidence points to the future.",
+        "This is the future continuous, describing rain in progress at noon.",
+        "This is the present simple, describing a general fact about the climate."]},
+    {q:"We’ll start the meeting as soon as everyone ______ .",
+     o:["will arrive","arrives","is arriving","will be arriving"], a:1,
+     e:["We don’t use “will” after “as soon as”.",
+        "Correct. The present simple follows a time conjunction, even about the future.",
+        "The present continuous suggests a fixed arrangement rather than a condition.",
+        "The future continuous can’t follow a time conjunction."]},
+    {q:"Which sentence is in the future continuous?",
+     o:["I’ll have left by then.","I’m leaving on Tuesday.","I’ll be leaving around six.","I leave on Tuesday."], a:2,
+     e:["This is the future perfect.",
+        "This is the present continuous for an arrangement.",
+        "Correct. “Will be” + -ing is the future continuous.",
+        "This is the present simple for a timetable."]}
+   ]},
+   {t:"Part 3 · Reported Speech", q:[
+    {q:"“The route is closed,” the ranger said. → The ranger said the route ______ closed.",
+     o:["is","was","has been","would be"], a:1,
+     e:["The present tense normally shifts back after a past reporting verb.",
+        "Correct. “Is” becomes “was”.",
+        "The present perfect changes the meaning and isn’t the backshift of “is”.",
+        "“Would be” turns a present fact into a future prediction."]},
+    {q:"“You can’t camp here.” → He told us we ______ camp there.",
+     o:["can’t","couldn’t","don’t","won’t"], a:1,
+     e:["“Can’t” is the direct-speech form and needs to shift back.",
+        "Correct. “Can’t” becomes “couldn’t”.",
+        "“Don’t” isn’t a modal of permission.",
+        "“Won’t” expresses refusal or future, not permission."]},
+    {q:"“Turn left at the lights.” → She told me ______ left at the lights.",
+     o:["turn","to turn","turning","that turn"], a:1,
+     e:["A bare infinitive can’t follow “told me”.",
+        "Correct. Reported instructions use “tell somebody to do something”.",
+        "The -ing form doesn’t follow “tell someone”.",
+        "A “that” clause needs a subject and a full verb."]},
+    {q:"“Are we lost?” → He asked ______ lost.",
+     o:["if we were","were we","if were we","that we were"], a:0,
+     e:["Correct. “If” + statement word order + backshift.",
+        "This keeps the inversion of a direct question.",
+        "This mixes “if” with question word order.",
+        "“That” introduces statements, not questions."]},
+    {q:"“How long have you been driving?” → She asked me how long ______ .",
+     o:["had I been driving","I had been driving","have I been driving","I have been driving"], a:1,
+     e:["Reported questions don’t keep the inversion.",
+        "Correct. Statement word order, and the present perfect continuous shifts to the past perfect continuous.",
+        "This keeps both the inversion and the present tense.",
+        "The tense hasn’t shifted back after the past reporting verb."]},
+    {q:"“I’ll pay for the gas.” → He said he ______ for the gas.",
+     o:["will pay","would pay","paid","had paid"], a:1,
+     e:["“Will” shifts back after a past reporting verb.",
+        "Correct. “Will” becomes “would”.",
+        "The simple past loses the idea of a future promise.",
+        "The past perfect would mean he had already paid."]},
+    {q:"Choose the correct sentence.",
+     o:["He told that he was tired.","He said me that he was tired.","He said that he was tired.","He told to us that he was tired."], a:2,
+     e:["“Tell” needs a person after it: “told us that…”.",
+        "“Say” is not followed directly by a person.",
+        "Correct. “Say that…” with no person after the verb.",
+        "“Tell” never takes “to” before the person."]},
+    {q:"“Don’t drink the tap water.” → The guide warned us ______ the tap water.",
+     o:["not to drink","to not drink","don’t drink","not drinking"], a:0,
+     e:["Correct. Negative warnings use “not to” + verb.",
+        "The negative belongs before “to”.",
+        "A direct imperative can’t follow “warned us”.",
+        "The -ing form doesn’t follow “warn someone”."]},
+    {q:"“We arrived last night.” → They said they ______ the night before.",
+     o:["arrived","have arrived","had arrived","were arriving"], a:2,
+     e:["Without the backshift, the sentence clashes with “the night before”.",
+        "The present perfect can’t be used with a specific past time.",
+        "Correct. A past simple in direct speech becomes a past perfect.",
+        "The continuous changes the meaning to an action in progress."]},
+    {q:"“I saw her yesterday,” he said on Monday. → He said he had seen her ______ .",
+     o:["yesterday","the day before","the next day","tomorrow"], a:1,
+     e:["“Yesterday” points to the day before today, not the day before he spoke.",
+        "Correct. Time words shift too: yesterday → the day before.",
+        "“The next day” points forwards and reverses the meaning.",
+        "“Tomorrow” refers to the future."]}
+   ]},
+   {t:"Part 4 · Active & Passive Voice", q:[
+    {q:"A local mechanic repaired the car. → The car ______ by a local mechanic.",
+     o:["was repaired","was repair","repaired","has repair"], a:0,
+     e:["Correct. Past simple passive: “was” + past participle.",
+        "After “was” we need the past participle, not the base form.",
+        "Active: the car didn’t repair anything.",
+        "Wrong auxiliary and wrong participle."]},
+    {q:"Tickets ______ online only.",
+     o:["sell","are selling","are sold","sold"], a:2,
+     e:["Active present simple; the tickets aren’t doing the selling.",
+        "Active continuous, with the wrong meaning.",
+        "Correct. Present simple passive for a general rule.",
+        "Past simple active, and the sentence describes a current rule."]},
+    {q:"The road ______ since Tuesday because of the snow.",
+     o:["closes","has been closed","is closing","was closing"], a:1,
+     e:["The present simple can’t be used with “since”.",
+        "Correct. Present perfect passive for a state that started in the past and continues.",
+        "The present continuous doesn’t work with “since”.",
+        "The past continuous doesn’t express a state continuing until now."]},
+    {q:"The photos ______ yet.",
+     o:["haven’t been printed","haven’t printed","aren’t printing","weren’t printed"], a:0,
+     e:["Correct. Present perfect passive: “haven’t been” + past participle.",
+        "Active: photos don’t print themselves.",
+        "Active continuous, with the wrong meaning.",
+        "The past simple passive doesn’t fit “yet”, which points to now."]},
+    {q:"“The tent was put up by Maxime.” In the active voice, this is:",
+     o:["Maxime put up the tent.","The tent put up Maxime.","Maxime was put up the tent.","Maxime puts the tent up by."], a:0,
+     e:["Correct. The agent becomes the subject and the verb becomes active.",
+        "This reverses the roles.",
+        "This keeps a passive verb with an object, which isn’t possible.",
+        "“By” can’t be left at the end of an active sentence."]},
+    {q:"Breakfast ______ between seven and ten.",
+     o:["serves","is served","is serving","has served"], a:1,
+     e:["Active: breakfast doesn’t serve anyone.",
+        "Correct. Present simple passive for a regular service.",
+        "Active continuous, with the wrong meaning.",
+        "Active present perfect, with the wrong subject."]},
+    {q:"The bill ______ right now; it will only take a minute.",
+     o:["is preparing","is being prepared","prepares","has prepared"], a:1,
+     e:["Active: the bill isn’t preparing anything.",
+        "Correct. Present continuous passive: “is being” + past participle.",
+        "Active present simple, and wrong for “right now”.",
+        "Active present perfect, with the wrong subject."]},
+    {q:"Which sentence is in the passive?",
+     o:["They were driving all night.","The car was towed away.","The car has broken down.","We were tired."], a:1,
+     e:["This is the past continuous active: “were” + -ing.",
+        "Correct. “Was” + past participle is the passive.",
+        "Active present perfect.",
+        "“Tired” is an adjective here, not a passive verb."]},
+    {q:"Helmets ______ at all times.",
+     o:["must wear","must be worn","must be wear","are must worn"], a:1,
+     e:["Active: helmets don’t wear anything.",
+        "Correct. Modal passive: modal + “be” + past participle.",
+        "After “be” we need the past participle “worn”.",
+        "Two verbs can’t be combined this way."]},
+    {q:"Why do written instructions often use the passive?",
+     o:["Because the person doing the action isn’t important","Because it sounds friendlier","Because the active voice is impolite","Because instructions have no verbs"], a:0,
+     e:["Correct. The passive keeps the focus on the action, not on who performs it.",
+        "The passive is usually more impersonal, not friendlier.",
+        "The active voice is perfectly polite.",
+        "Instructions are full of verbs."]}
+   ]},
+   {t:"Part 5 · Linking Words", q:[
+    {q:"______ the heat, we walked for three hours.",
+     o:["Despite","Although","Because","Therefore"], a:0,
+     e:["Correct. “Despite” + noun expresses contrast.",
+        "“Although” needs a subject and a verb after it.",
+        "“Because” gives a cause and needs a clause.",
+        "“Therefore” introduces a result and can’t be followed by a noun."]},
+    {q:"The map said forty minutes; ______, it took two hours.",
+     o:["therefore","however","because","in addition"], a:1,
+     e:["“Therefore” introduces a result, but this contradicts the first idea.",
+        "Correct. “However” introduces a contrast between two sentences.",
+        "“Because” gives a reason and needs a clause after it.",
+        "“In addition” adds a similar idea."]},
+    {q:"We left at dawn ______ avoid the traffic.",
+     o:["so that","in order to","because of","despite"], a:1,
+     e:["“So that” needs a clause with a subject.",
+        "Correct. “In order to” + infinitive expresses purpose.",
+        "“Because of” takes a noun and gives a cause.",
+        "“Despite” takes a noun and expresses contrast."]},
+    {q:"______ we had booked, the hotel had no record of us.",
+     o:["Despite","Although","However","Because of"], a:1,
+     e:["“Despite” is followed by a noun or an -ing form, not a clause.",
+        "Correct. “Although” + subject + verb expresses contrast.",
+        "“However” links two separate sentences.",
+        "“Because of” takes a noun and gives a cause."]},
+    {q:"The engine overheated; ______, we had to stop.",
+     o:["nevertheless","as a result","whereas","although"], a:1,
+     e:["“Nevertheless” signals a surprising contrast, not a consequence.",
+        "Correct. “As a result” introduces a consequence.",
+        "“Whereas” compares two opposite facts.",
+        "“Although” introduces a contrast clause."]},
+    {q:"He speaks very fast, ______ his brother speaks slowly.",
+     o:["therefore","whereas","because","so"], a:1,
+     e:["There is no cause-and-effect link between the two facts.",
+        "Correct. “Whereas” contrasts two parallel facts.",
+        "One fact isn’t the reason for the other.",
+        "“So” introduces a result."]},
+    {q:"We arrived late ______ a road closure.",
+     o:["because","because of","although","however"], a:1,
+     e:["“Because” must be followed by a subject and a verb.",
+        "Correct. “Because of” + noun gives a cause.",
+        "“Although” expresses contrast and needs a clause.",
+        "“However” links two sentences with a contrast."]},
+    {q:"The park was crowded; ______, we found a quiet spot.",
+     o:["therefore","nevertheless","as a result","so"], a:1,
+     e:["“Therefore” introduces a logical result, but this is a surprise.",
+        "Correct. “Nevertheless” expresses an unexpected contrast.",
+        "“As a result” introduces a consequence.",
+        "“So” introduces a result and joins clauses, not separate sentences with a comma."]},
+    {q:"Bring water ______ you get thirsty.",
+     o:["so that","in case","in order to","despite"], a:1,
+     e:["“So that” expresses a purpose you want, not a precaution.",
+        "Correct. “In case” expresses a precaution against something that may happen.",
+        "“In order to” is followed by an infinitive.",
+        "“Despite” takes a noun and expresses contrast."]},
+    {q:"First we filled the tank; ______ we checked the tyres.",
+     o:["however","although","after that","whereas"], a:2,
+     e:["“However” would signal a contrast between the two steps.",
+        "“Although” introduces a contrast clause.",
+        "Correct. “After that” marks the next step in a sequence.",
+        "“Whereas” compares two opposite facts."]}
+   ]}
+  ]
+},
+{
+  id: 4, name: "Practice Test 4", theme: "Going home",
+  parts: [
+   {t:"Part 1 · Past Perfect & Narrative Tenses", q:[
+    {q:"By the time she boarded, she ______ goodbye to everyone.",
+     o:["said","had said","has said","was saying"], a:1,
+     e:["The simple past doesn’t show that this was finished before boarding.",
+        "Correct. “By the time” + past perfect for an action completed before another past moment.",
+        "The present perfect can’t be used in a past narrative.",
+        "The continuous would mean she was still saying goodbye as she boarded."]},
+    {q:"He ______ in Austin for a year when the company transferred him.",
+     o:["lived","had been living","has lived","was lived"], a:1,
+     e:["The simple past doesn’t link the year to the transfer.",
+        "Correct. The past perfect continuous gives the duration up to a past event.",
+        "The present perfect measures duration up to now.",
+        "“Was lived” is passive and impossible with “live” here."]},
+    {q:"When I called, she ______ her suitcase — I could hear the zip.",
+     o:["packed","was packing","has packed","packs"], a:1,
+     e:["The simple past would present the packing as complete before the call.",
+        "Correct. The past continuous describes what was in progress at that moment.",
+        "The present perfect can’t narrate a past scene.",
+        "The present simple can’t describe a past moment."]},
+    {q:"The flight was late because the crew ______ from Chicago.",
+     o:["hadn’t arrived","didn’t arrive","hasn’t arrived","wasn’t arriving"], a:0,
+     e:["Correct. The past perfect explains a past situation with an earlier fact.",
+        "The simple past doesn’t make the “before that moment” relationship clear.",
+        "The present perfect links to now, but the story is in the past.",
+        "The continuous doesn’t work in a negative sentence about arrival like this."]},
+    {q:"He didn’t want to leave: Austin ______ home.",
+     o:["became","had become","has become","was becoming"], a:1,
+     e:["The simple past doesn’t show that the change was complete before that moment.",
+        "Correct. The past perfect explains a past feeling with something that happened earlier.",
+        "The present perfect connects the change to now, but the story is in the past.",
+        "The continuous suggests the change was still in progress."]},
+    {q:"They ______ for hours before the storm finally passed.",
+     o:["waited","had been waiting","have waited","were waited"], a:1,
+     e:["The simple past doesn’t link the hours to the moment the storm passed.",
+        "Correct. The past perfect continuous expresses duration up to a past event.",
+        "The present perfect measures duration up to now.",
+        "“Were waited” is passive and impossible here."]},
+    {q:"Halfway to the airport, I realised I ______ my charger in the hotel room.",
+     o:["leave","had left","have left","was leaving"], a:1,
+     e:["The present simple can’t describe a past action.",
+        "Correct. The charger was left before the moment of realising.",
+        "The present perfect doesn’t fit a story set in the past.",
+        "The continuous suggests an action in progress, not a single completed act."]},
+    {q:"While the plane ______ over the ocean, he watched two films.",
+     o:["flew","was flying","had flown","has flown"], a:1,
+     e:["The simple past presents the flight as one finished event.",
+        "Correct. The past continuous gives the longer background action.",
+        "The past perfect would place the flight before the films.",
+        "The present perfect can’t narrate a past scene."]},
+    {q:"Nobody ______ him that the office had moved.",
+     o:["told","had told","has told","was telling"], a:1,
+     e:["The simple past is possible on its own, but here the sentence contrasts with a later past event.",
+        "Correct. The past perfect places this before the rest of the story.",
+        "The present perfect can’t be mixed into a past narrative.",
+        "The continuous doesn’t suit a single act of informing someone."]},
+    {q:"Choose the sentence with the correct narrative order.",
+     o:["When we arrived, the film already started.","When we arrived, the film had already started.","When we arrived, the film has already started.","When we arrived, the film already starts."], a:1,
+     e:["Two simple pasts suggest the film started after we arrived.",
+        "Correct. The past perfect shows the film began before we arrived.",
+        "The present perfect can’t follow a past time clause.",
+        "The present simple can’t describe a past event."]}
+   ]},
+   {t:"Part 2 · Future Continuous & Future Forms", q:[
+    {q:"This time next Friday, I ______ my parents in Lyon.",
+     o:["see","will see","will be seeing","am see"], a:2,
+     e:["The present simple is for habits and timetables.",
+        "“Will see” states a future fact rather than the situation at that exact time.",
+        "Correct. The future continuous fits “this time next Friday”.",
+        "This is not a possible verb form."]},
+    {q:"The battery is at two per cent — the laptop ______ .",
+     o:["will die","is going to die","will be dying","dies"], a:1,
+     e:["“Will” is for predictions with no present evidence.",
+        "Correct. “Going to” is used when present evidence makes the result obvious.",
+        "The future continuous describes an action in progress at a stated time.",
+        "The present simple describes a general fact or habit."]},
+    {q:"Your hands are full — I ______ the door for you.",
+     o:["get","will get","am getting","will be getting"], a:1,
+     e:["The present simple can’t express an offer.",
+        "Correct. “Will” expresses an offer made at the moment of speaking.",
+        "The present continuous would mean it was arranged beforehand.",
+        "The future continuous describes an action in progress at a future moment."]},
+    {q:"By the time you read this, I ______ .",
+     o:["will leave","will be leaving","will have left","leave"], a:2,
+     e:["“Will leave” doesn’t express completion before a future moment.",
+        "The future continuous shows an action in progress, not a finished one.",
+        "Correct. “By the time” + future perfect for something finished before a future point.",
+        "The present simple can’t express a future result."]},
+    {q:"The ceremony ______ at three, according to the programme.",
+     o:["will start","starts","will be starting","is going to start"], a:1,
+     e:["“Will start” sounds like a prediction rather than a published programme.",
+        "Correct. The present simple is used for timetables and scheduled events.",
+        "The future continuous describes an action in progress at a future moment.",
+        "“Going to” expresses an intention or a prediction, not a schedule."]},
+    {q:"Don’t come at seven — I ______ the kids to bed.",
+     o:["put","will put","will be putting","am put"], a:2,
+     e:["The present simple describes a routine, not this specific evening.",
+        "“Will put” states a fact; here the point is being busy at that time.",
+        "Correct. The future continuous describes an action in progress at a stated time.",
+        "This is not a possible verb form."]},
+    {q:"She ______ study medicine; she’s already applied.",
+     o:["will","is going to","will be","would"], a:1,
+     e:["“Will” suits a decision made while speaking; this plan already exists.",
+        "Correct. “Be going to” expresses an intention decided before now.",
+        "“Will be” would need an -ing form after it.",
+        "“Would” refers to a hypothetical situation or reported speech."]},
+    {q:"I’ll text you the address when I ______ it.",
+     o:["will find","find","will be finding","am finding"], a:1,
+     e:["We don’t use “will” after “when” in a future time clause.",
+        "Correct. The present simple follows “when”, even about the future.",
+        "The future continuous can’t follow a time conjunction.",
+        "The present continuous suggests a fixed arrangement, not a condition."]},
+    {q:"Which sentence talks about an action in progress at a future moment?",
+     o:["I’ll have arrived by six.","I’ll arrive at six.","I’ll be waiting at six.","I arrive at six."], a:2,
+     e:["This is the future perfect: the arrival is complete before six.",
+        "This is a simple future fact.",
+        "Correct. The future continuous shows an action in progress at six.",
+        "This is the present simple used for a timetable."]},
+    {q:"In twenty years, most people ______ electric cars.",
+     o:["will be driving","drive","drove","are driving"], a:0,
+     e:["Correct. The future continuous describes a situation in progress at a future time.",
+        "The present simple describes today’s habits.",
+        "The simple past refers to the past.",
+        "The present continuous refers to now or to a fixed arrangement."]}
+   ]},
+   {t:"Part 3 · Reported Speech", q:[
+    {q:"“I don’t understand this clause,” she said. → She said she ______ that clause.",
+     o:["doesn’t understand","didn’t understand","hasn’t understood","wouldn’t understand"], a:1,
+     e:["The present simple normally shifts back after a past reporting verb.",
+        "Correct. The present simple becomes the past simple.",
+        "The present perfect changes the meaning.",
+        "“Wouldn’t understand” turns the fact into a hypothetical situation."]},
+    {q:"“You should take the earlier flight.” → He said I ______ take the earlier flight.",
+     o:["should","would","must","will"], a:0,
+     e:["Correct. “Should” has no past form, so it doesn’t change in reported speech.",
+        "“Would” is the backshift of “will”, not of “should”.",
+        "“Must” expresses obligation, which is stronger than advice.",
+        "“Will” doesn’t express advice, and it should shift back anyway."]},
+    {q:"“Call me when you land.” → She told me ______ her when I landed.",
+     o:["call","to call","calling","that call"], a:1,
+     e:["A bare infinitive can’t follow “told me”.",
+        "Correct. Reported instructions use “tell somebody to do something”.",
+        "The -ing form doesn’t follow “tell someone”.",
+        "A “that” clause needs a subject and a full verb."]},
+    {q:"“Did you enjoy your year?” → They asked me ______ my year.",
+     o:["did I enjoy","if I had enjoyed","that I enjoyed","if had I enjoyed"], a:1,
+     e:["Reported questions drop the auxiliary “did”.",
+        "Correct. “If” + statement word order, with the past simple shifting to the past perfect.",
+        "“That” introduces statements, not questions.",
+        "This keeps question word order after “if”."]},
+    {q:"“Who wrote this report?” → She asked ______ this report.",
+     o:["who wrote","who did write","who had wrote","did who write"], a:0,
+     e:["Correct. When the question word is the subject, the word order stays the same.",
+        "The emphatic auxiliary isn’t used in reported questions.",
+        "“Wrote” is already the past form; “had wrote” is not a possible form.",
+        "This keeps direct-question word order."]},
+    {q:"“We’re going to open a Paris office.” → They said they ______ open a Paris office.",
+     o:["are going to","were going to","will","would be"], a:1,
+     e:["The present form shifts back after a past reporting verb.",
+        "Correct. “Are going to” becomes “were going to”.",
+        "“Will” doesn’t backshift and changes the structure.",
+        "“Would be” would need an -ing form after it."]},
+    {q:"Choose the correct sentence.",
+     o:["He asked me what did I want.","He asked me what I wanted.","He asked me what wanted I.","He asked to me what I wanted."], a:1,
+     e:["Reported questions don’t keep the auxiliary “did”.",
+        "Correct. Statement word order with the tense shifted back.",
+        "The word order is impossible in English.",
+        "“Ask” never takes “to” before the person."]},
+    {q:"“Don’t forget your visa.” → He reminded me ______ my visa.",
+     o:["not to forget","to not forget","don’t forget","not forgetting"], a:0,
+     e:["Correct. Negative reminders use “not to” + verb.",
+        "The negative belongs before “to”.",
+        "A direct imperative can’t follow “reminded me”.",
+        "The -ing form doesn’t follow “remind someone”."]},
+    {q:"“I’ve been here since January,” he said in June. → He said he ______ there since January.",
+     o:["has been","had been","was","is"], a:1,
+     e:["The present perfect shifts back after a past reporting verb.",
+        "Correct. The present perfect becomes the past perfect.",
+        "“Was” loses the idea of a period continuing up to that moment.",
+        "The present tense doesn’t backshift here and clashes with “said”."]},
+    {q:"Yesterday Marcus said: “I may come tomorrow.” Which report keeps the meaning?",
+     o:["He said he may come tomorrow.","He said he might come today.","He said he might come the day before.","He said he must come today."], a:1,
+     e:["“May” should shift back, and “tomorrow” now means a different day.",
+        "Correct. “May” becomes “might”, and the day after yesterday is today.",
+        "“The day before” points backwards, which reverses the meaning.",
+        "“Must” changes possibility into obligation."]}
+   ]},
+   {t:"Part 4 · Active & Passive Voice", q:[
+    {q:"The teacher sent the final version to all students yesterday. → The final version ______ to all students yesterday.",
+     o:["was sent","was send","sent","has sent"], a:0,
+     e:["Correct. Past simple passive: “was” + past participle.",
+        "After “was” we need the past participle “sent”, not the base form.",
+        "Active: the version didn’t send anything.",
+        "Active present perfect, which can’t take “yesterday”."]},
+    {q:"This form ______ in black ink.",
+     o:["must fill in","must be filled in","must be fill in","is must filled in"], a:1,
+     e:["Active: the form doesn’t fill anything in.",
+        "Correct. Modal passive: modal + “be” + past participle.",
+        "After “be” we need the past participle “filled”.",
+        "Two verbs can’t be combined this way."]},
+    {q:"The database ______ every night at two.",
+     o:["backs up","is backed up","is backing up","has backed up"], a:1,
+     e:["Active: something else performs the backup.",
+        "Correct. Present simple passive for a regular automatic process.",
+        "Active continuous, with the wrong meaning.",
+        "Active present perfect, with the wrong subject."]},
+    {q:"Three candidates ______ so far.",
+     o:["have interviewed","have been interviewed","are interviewed","were interviewing"], a:1,
+     e:["Active: this would mean the candidates interviewed other people.",
+        "Correct. Present perfect passive for a result counted up to now.",
+        "The present simple passive doesn’t fit “so far”.",
+        "Active past continuous, with the wrong meaning."]},
+    {q:"“The decision will be announced by the board.” In the active voice, this is:",
+     o:["The board will announce the decision.","The board will be announced the decision.","The decision will announce the board.","The board announces by the decision."], a:0,
+     e:["Correct. The agent becomes the subject and the verb becomes active.",
+        "This keeps a passive verb with an object, which isn’t possible.",
+        "This reverses the roles.",
+        "“By” can’t stay in an active sentence."]},
+    {q:"My laptop ______ at the moment, so I’m using a spare.",
+     o:["repairs","is repairing","is being repaired","has repaired"], a:2,
+     e:["Active: the laptop doesn’t repair anything.",
+        "Active continuous, with the wrong meaning.",
+        "Correct. Present continuous passive: “is being” + past participle.",
+        "Active present perfect, with the wrong subject."]},
+    {q:"We ______ about the change only last week.",
+     o:["were informed","informed","are informing","have informed"], a:0,
+     e:["Correct. Passive: someone else gave us the information.",
+        "Active, which reverses the meaning: it says we informed others.",
+        "Active continuous, and wrong for a finished past time.",
+        "Active present perfect, which can’t take “last week”."]},
+    {q:"Which sentence is in the passive?",
+     o:["The parcel arrived late.","The parcel has been opened.","The parcel weighs two kilos.","Someone opened the parcel."], a:1,
+     e:["Active past simple.",
+        "Correct. “Has been” + past participle is the present perfect passive.",
+        "Active present simple with a state verb.",
+        "Active past simple with the agent as subject."]},
+    {q:"Every report ______ by two people before it goes out.",
+     o:["is checking","has checked","is checked","checks"], a:2,
+     e:["Active continuous: the report isn’t checking anything.",
+        "Active present perfect, with the wrong subject.",
+        "Correct. Present simple passive for a standard procedure.",
+        "Active present simple, with the wrong subject."]},
+    {q:"“The files were deleted by mistake.” In the active voice, this is:",
+     o:["Someone deleted the files by mistake.","The files deleted someone by mistake.","The files were deleting by mistake.","By mistake was deleted the files."], a:0,
+     e:["Correct. When the agent is unknown, the active version uses “someone”.",
+        "This reverses the roles.",
+        "This is an active continuous form with the wrong meaning.",
+        "The word order is impossible in English."]}
+   ]},
+   {t:"Part 5 · Linking Words", q:[
+    {q:"______ a difficult start, the year was a success.",
+     o:["Despite","Although","Because","However"], a:0,
+     e:["Correct. “Despite” + noun phrase expresses contrast.",
+        "“Although” needs a subject and a verb after it.",
+        "“Because” gives a cause and needs a clause.",
+        "“However” links two separate sentences, not a noun."]},
+    {q:"He didn’t speak much English; ______, he made friends quickly.",
+     o:["therefore","nevertheless","because","so that"], a:1,
+     e:["“Therefore” introduces a result, but this is a surprise.",
+        "Correct. “Nevertheless” expresses an unexpected contrast.",
+        "“Because” gives a reason and needs a clause.",
+        "“So that” introduces a purpose."]},
+    {q:"We rented a small flat ______ save money.",
+     o:["in order to","so that","because of","despite"], a:0,
+     e:["Correct. “In order to” + infinitive expresses purpose.",
+        "“So that” needs a clause with a subject.",
+        "“Because of” takes a noun and gives a cause.",
+        "“Despite” takes a noun and expresses contrast."]},
+    {q:"______ the rent was high, the location was perfect.",
+     o:["Despite","Although","However","Because of"], a:1,
+     e:["“Despite” is followed by a noun or an -ing form, not a clause.",
+        "Correct. “Although” + subject + verb expresses contrast.",
+        "“However” links two separate sentences.",
+        "“Because of” takes a noun and gives a cause."]},
+    {q:"Take a jacket ______ it gets cold tonight.",
+     o:["in case","in order to","despite","whereas"], a:0,
+     e:["Correct. “In case” expresses a precaution against something that may happen.",
+        "“In order to” is followed by an infinitive.",
+        "“Despite” takes a noun and expresses contrast.",
+        "“Whereas” compares two opposite facts."]},
+    {q:"He worked hard; ______, he was promoted after six months.",
+     o:["however","as a result","although","whereas"], a:1,
+     e:["“However” signals a contrast, but this is a logical consequence.",
+        "Correct. “As a result” introduces a consequence.",
+        "“Although” introduces a contrast clause.",
+        "“Whereas” compares two opposite facts."]},
+    {q:"The food was excellent, ______ the service was very slow.",
+     o:["therefore","although","so","because"], a:1,
+     e:["“Therefore” introduces a result, but the two ideas contrast.",
+        "Correct. “Although” introduces a contrasting clause.",
+        "“So” introduces a result.",
+        "“Because” gives a reason, but slow service isn’t caused by good food."]},
+    {q:"______ the delay, nobody complained.",
+     o:["Because of","Despite","Although","However"], a:1,
+     e:["“Because of” gives a cause, but the delay didn’t cause the calm.",
+        "Correct. “Despite” + noun expresses an unexpected contrast.",
+        "“Although” needs a subject and a verb after it.",
+        "“However” links two sentences, not a noun."]},
+    {q:"Some people work better alone; ______, others need a team.",
+     o:["therefore","on the other hand","because","so"], a:1,
+     e:["“Therefore” introduces a consequence.",
+        "Correct. “On the other hand” introduces the opposite side of a comparison.",
+        "“Because” gives a reason and needs a clause.",
+        "“So” introduces a result."]},
+    {q:"Choose the sentence where the linking word is used correctly.",
+     o:["Despite it was raining, we walked.","Although the rain, we walked.","Despite the rain, we walked.","However the rain, we walked."], a:2,
+     e:["“Despite” can’t be followed by a clause; use “although” or “despite the rain”.",
+        "“Although” needs a subject and a verb, not just a noun.",
+        "Correct. “Despite” + noun phrase.",
+        "“However” links two sentences and can’t be followed by a noun."]}
+   ]}
+  ]
+}
+];
+
+const KEYS = ["A","B","C","D"];
+const app = document.getElementById("app");
+let S = null;
+
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+function flatten(test){
+  const out = [];
+  test.parts.forEach((p, pi) => p.q.forEach(q => out.push({ part: p.t, pi, q })));
+  return out;
+}
+
+function home(){
+  S = null;
+  app.innerHTML = `
+    <p class="eyebrow">My American Year · B2 · Practice</p>
+    <h1>Grammar practice tests</h1>
+    <p class="lede">Four tests, fifty questions each, in the same five parts as Friday's exam.
+    Answer a question, check it, and you get the reason for every option — the right one and the three wrong ones.</p>
+    <div class="pick">${TESTS.map((t,i)=>`
+      <button data-t="${i}">
+        <span class="pt">${esc(t.name)}</span>
+        <span class="ps">${esc(t.theme)} · 50 questions · 5 parts</span>
+      </button>`).join("")}
+    </div>
+    <p class="note"><b>Nothing is saved.</b> Close the page and the test starts again from zero, so students can retake it as often as they like.</p>`;
+  app.querySelectorAll(".pick button").forEach(b =>
+    b.addEventListener("click", () => start(+b.dataset.t)));
+}
+
+function start(ti, only){
+  const all = flatten(TESTS[ti]);
+  const idx = only || all.map((_,i)=>i);
+  S = { ti, all, idx, pos:0, picked:new Array(all.length).fill(null), done:new Array(all.length).fill(false), retry: !!only };
+  render();
+}
+
+function render(){
+  const { all, idx, pos } = S;
+  const gi = idx[pos];
+  const item = all[gi];
+  const picked = S.picked[gi];
+  const checked = S.done[gi];
+  const num = gi + 1;
+
+  app.innerHTML = `
+    <div class="topbar">
+      <span class="part">${esc(item.part)}</span>
+      <span class="count">${pos+1} / ${idx.length}${S.retry ? " · retry" : ""}</span>
+    </div>
+    <div class="bar"><i style="width:${(pos/idx.length)*100}%"></i></div>
+    <div class="qbox">
+      <span class="qnum">${num}.</span>
+      <p class="q">${esc(item.q.q)}</p>
+      <div class="opts">
+        ${item.q.o.map((o,i)=>{
+          const isRight = i === item.q.a;
+          let cls = "opt";
+          if (!checked && picked === i) cls += " sel";
+          if (checked){
+            cls += isRight ? " right" : " wrong";
+            if (picked === i) cls += " picked";
+          }
+          const tag = checked && picked === i ? `<span class="tag">your answer</span>`
+                    : (checked && isRight ? `<span class="tag">correct</span>` : "");
+          return `<button class="${cls}" data-o="${i}" ${checked?"disabled":""}>
+                    <span class="k">${KEYS[i]}</span><span>${esc(o)}</span>${tag}
+                  </button>
+                  ${checked ? `<p class="why${isRight?" ok":""}">${esc(item.q.e[i])}</p>` : ""}`;
+        }).join("")}
+      </div>
+      ${checked ? `<p class="verdict ${picked===item.q.a?"ok":"no"}">${picked===item.q.a?"Correct":"Not correct — read the notes above"}</p>` : ""}
+      <div class="actions">
+        ${checked
+          ? `<button class="go" id="next">${pos+1 < idx.length ? "Next question" : "See results"}</button>`
+          : `<button class="go" id="check" ${picked===null?"disabled":""}>Check answer</button>`}
+        <button class="ghost" id="quit">Leave test</button>
+        <span class="hint">Keys A–D or 1–4 to choose · Enter to continue</span>
+      </div>
+    </div>`;
+
+  app.querySelectorAll(".opt").forEach(b =>
+    b.addEventListener("click", () => { S.picked[gi] = +b.dataset.o; render(); }));
+  const c = document.getElementById("check");
+  if (c) c.addEventListener("click", () => { S.done[gi] = true; render(); });
+  const n = document.getElementById("next");
+  if (n) n.addEventListener("click", () => {
+    if (S.pos + 1 < S.idx.length){ S.pos++; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+    else results();
+  });
+  document.getElementById("quit").addEventListener("click", home);
+}
+
+function results(){
+  const { all, idx, ti } = S;
+  const answered = idx.filter(i => S.done[i]);
+  const right = answered.filter(i => S.picked[i] === all[i].q.a);
+  const missed = answered.filter(i => S.picked[i] !== all[i].q.a);
+  const test = TESTS[ti];
+
+  const perPart = test.parts.map((p, pi) => {
+    const ids = idx.filter(i => all[i].pi === pi);
+    const ok = ids.filter(i => S.picked[i] === all[i].q.a).length;
+    return { title: p.t, ok, total: ids.length };
+  }).filter(p => p.total > 0);
+
+  app.innerHTML = `
+    <p class="eyebrow">${esc(test.name)} · result</p>
+    <p class="score">${right.length}<small> / ${answered.length}</small></p>
+    <div class="breakdown">
+      ${perPart.map(p=>{
+        const pct = p.total ? (p.ok/p.total)*100 : 0;
+        return `<div class="brow"><span>${esc(p.title)}</span><span>${p.ok}/${p.total}</span>
+          <span class="track"><i class="${pct<60?"low":""}" style="width:${pct}%"></i></span></div>`;
+      }).join("")}
+    </div>
+    <div class="actions" style="margin-bottom:32px">
+      ${missed.length ? `<button class="go" id="again">Redo the ${missed.length} I missed</button>` : ""}
+      <button class="ghost" id="restart">Restart this test</button>
+      <button class="ghost" id="back">Other tests</button>
+    </div>
+    ${missed.length ? `<p class="eyebrow">Questions to review</p><div class="review">${missed.map(i=>{
+      const it = all[i];
+      return `<details class="rev"><summary><span class="n">${i+1}.</span><span>${esc(it.q.q)}</span></summary>
+        <div class="opts">${it.q.o.map((o,k)=>{
+          const isRight = k === it.q.a;
+          const cls = "opt " + (isRight ? "right" : "wrong") + (S.picked[i]===k ? " picked" : "");
+          const tag = S.picked[i]===k ? `<span class="tag">your answer</span>` : (isRight ? `<span class="tag">correct</span>` : "");
+          return `<div class="${cls}"><span class="k">${KEYS[k]}</span><span>${esc(o)}</span>${tag}</div>
+                  <p class="why${isRight?" ok":""}">${esc(it.q.e[k])}</p>`;
+        }).join("")}</div></details>`;
+    }).join("")}</div>` : `<p class="note">Nothing to review — every answer was correct.</p>`}`;
+
+  const a = document.getElementById("again");
+  if (a) a.addEventListener("click", () => start(ti, missed));
+  document.getElementById("restart").addEventListener("click", () => start(ti));
+  document.getElementById("back").addEventListener("click", home);
+  window.scrollTo({top:0});
+}
+
+document.addEventListener("keydown", e => {
+  if (!S) return;
+  const gi = S.idx[S.pos];
+  const k = e.key.toUpperCase();
+  const map = {A:0,B:1,C:2,D:3,"1":0,"2":1,"3":2,"4":3};
+  if (k in map && !S.done[gi]){
+    if (map[k] < S.all[gi].q.o.length){ S.picked[gi] = map[k]; render(); e.preventDefault(); }
+  } else if (e.key === "Enter"){
+    const btn = document.getElementById("next") || document.getElementById("check");
+    if (btn && !btn.disabled){ btn.click(); e.preventDefault(); }
+  }
+});
+
+home();
+</script>
+</body>
+</html>
